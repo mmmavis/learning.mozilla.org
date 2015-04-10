@@ -606,6 +606,7 @@ var ClubsPage = React.createClass({
               onClick={this.showAddYourClubModal}
               header="Do you meet regularly with a group of learners to increase web literacy skills?"
               cta="add your club to the map"
+              dividerImgSrc="/img/clubs-line-divider.svg"
             />
             }
 
