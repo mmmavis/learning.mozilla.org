@@ -96,11 +96,15 @@ var BlogSection = React.createClass({
       featuredPost: {
         title: "",
         author: "",
-        publishedDate: "",
+        publishedDate: new Date(),
         contentSnippet: "",
-        link: ""
+        link: "https://blog.webmaker.org"
       },
-      latestPosts: []
+      latestPosts: [{
+        title: "",
+        publishedDate: new Date(),
+        link: "https://blog.webmaker.org"
+      }]
     }
   },
   componentDidMount: function() {
@@ -109,7 +113,7 @@ var BlogSection = React.createClass({
         return;
       }
       this.setState({
-        featuredPost: data.featuredPosts,
+        featuredPost: data.featuredPost,
         latestPosts: data.latestPosts
       });
     }.bind(this));
@@ -137,6 +141,9 @@ var BlogSection = React.createClass({
 });
 
 var HomePage = React.createClass({
+  statics: {
+    BlogSection: BlogSection
+  },
   render: function() {
     return (
       <div>
