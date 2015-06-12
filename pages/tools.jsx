@@ -24,39 +24,78 @@ var ToolsIntro = React.createClass({
   }
 });
 
+var ToolsColumn = React.createClass({
+  propTypes: {
+    name: React.PropTypes.string.isRequired,
+    desctiption: React.PropTypes.string.isRequired,
+    link: React.PropTypes.string.isRequired,
+    src1x: React.PropTypes.string.isRequired,
+    src2x: React.PropTypes.string.isRequired,
+    activityTitle: React.PropTypes.string,
+    activityLink: React.PropTypes.string
+  },
+  render: function() {
+    var sampleActivity = null;
+    if (this.props.activityTitle && this.props.activityLink) {
+      sampleActivity =
+        <div className="sample-activity">
+          <div className="label-container"><div className="label label-success">Sample Activity</div></div>
+          <a href={this.props.activityLink}>{this.props.activityTitle}</a>
+        </div>;
+    }
+    return (
+      <div className="col-sm-4 col-md-4 col-lg-4 tools-col">
+        <Illustration
+          height={150} width={200}
+          src1x={this.props.src1x}
+          src2x={this.props.src2x}
+          alt=""
+          verticalLayout>
+          <h2><a href={this.props.link}>{this.props.name}</a></h2>
+          <p>{this.props.desctiption}</p>
+        </Illustration>
+        {sampleActivity}
+      </div>
+    );
+  }
+});
+
 var ToolsSection = React.createClass({
+  tools: [
+    {
+      name: "X-Ray Goggles",
+      desctiption: "This code inspector lets you view and remix the code of your favorite web pages.",
+      link: "https://webmaker.org/goggles",
+      src1x: "/img/pages/tools/xray-goggles.png",
+      src2x: "/img/pages/tools/xray-goggles@2x.png",
+      activityTitle: "Hack the News",
+      activityLink: "http://mozilla.github.io/webmaker-curriculum/WebLiteracyBasics-I/session02-hackthenews.html"
+    },
+    {
+      name: "Thimble",
+      desctiption: "This code editor helps you learn HTML and CSS by creating and remixing Web projects.",
+      link: "https://thimble.webmaker.org",
+      src1x: "/img/pages/tools/thimble.png",
+      src2x: "/img/pages/tools/thimble@2x.png",
+      activityTitle: "Image Seeking for Fantastic Visual Metaphors ",
+      activityLink: "https://cogdog.makes.org/thimble/LTEyMjQ4NjUyOA==/imageseeking-for-fantastic-visual-metaphors"
+    },
+    {
+      name: "Webmaker",
+      desctiption: "Webmaker lets you create, discover and share content in your language on your mobile device.",
+      link: "https://webmaker.org",
+      src1x: "/img/pages/tools/webmaker.jpg",
+      src2x: "/img/pages/tools/webmaker@2x.jpg"
+    }
+  ],
   render: function() {
     return (
       <section>
         <div className="row">
-          <div className="col-sm-6 col-md-6 col-lg-6 tools-col">
-            <Illustration
-              height={204} width={204}
-              src1x="/img/pages/tools/xray-goggles.png"
-              src2x="/img/pages/tools/xray-goggles@2x.png"
-              alt="icon toolkit"
-              verticalLayout>
-              <h2><a href="/fixme">X-Ray Goggles(broken link)</a></h2>
-              <p>This code inspector lets you view and remix the code of your favorite web pages.</p>
-            </Illustration>
-            <ul>
-              <li><a href="http://mozilla.github.io/webmaker-curriculum/WebLiteracyBasics-I/session02-hackthenews.html">Hack the News</a></li>
-            </ul>
-          </div>
-          <div className="col-sm-6 col-md-6 col-lg-6 tools-col">
-            <Illustration
-              height={204} width={204}
-              src1x="/img/pages/tools/thimble.png"
-              src2x="/img/pages/tools/thimble@2x.png"
-              alt="icon toolkit"
-              verticalLayout>
-              <h2><a href="/fixme">Thimble(broken link)</a></h2>
-              <p>This code editor helps you learn HTML and CSS by creating and remixing Web projects.</p>
-            </Illustration>
-            <ul>
-              <li><span className="label label-success"></span><a href="http://mozilla.github.io/webmaker-curriculum/WebLiteracyBasics-I/session02-hackthenews.html">Hack the News</a></li>
-            </ul>
-          </div>
+          { this.tools.map(function(tool, i) {
+              return <ToolsColumn {...tool} key={i} />;
+            })
+          }
         </div>
       </section>
     )
