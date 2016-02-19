@@ -10,8 +10,8 @@ var Intro = (
     <section className="intro">
       <Illustration
       height={204} width={204}
-      src1x="/img/pages/name-of-page/filename.extension"
-      src2x="/img/pages/name-of-page/filename@2x.extension"
+      src1x="/img/pages/intermediate-web-lit/blue-pyramid.png"
+      src2x="/img/pages/intermediate-web-lit/blue-pyramid@2x.png"
       alt="">
         <h2>Learn to style HTML elements on a webpage using CSS selectors, attributes, and values.</h2>
       </Illustration>
