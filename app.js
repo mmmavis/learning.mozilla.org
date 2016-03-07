@@ -138,6 +138,7 @@ app.use(function(req, res, next) {
   var ReactDOMServer = require('react-dom/server');
   var Page = require('./components/page.jsx');
   var HtmlWrapper = require('./components/HTML-wrapper.jsx');
+
   wpPageChecker(req.path, function(err, wpContent) {
     if ( err ) {
       res.status(404).send(notFoundHTML);
