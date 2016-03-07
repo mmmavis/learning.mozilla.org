@@ -6,6 +6,8 @@ var Route = ReactRouter.Route;
 var Redirect = ReactRouter.Redirect;
 var IndexRoute  = ReactRouter.IndexRoute;
 
+var WpPageCrawler = require('./wp-page-crawler');
+
 /**
  * Our base routes
  */
@@ -37,7 +39,9 @@ var pages = {
   'home': require('../pages/home.jsx'),
   'opportunities': require('../pages/opportunities.jsx'),
   'tools': require('../pages/tools.jsx'),
-  'me': require('../pages/makes.jsx')
+  'me': require('../pages/makes.jsx'),
+  'mavis-test': require('../pages/wp-page.jsx'),
+  'mavis-test-2': require('../pages/wp-page.jsx')
 };
 
 /**
@@ -48,10 +52,22 @@ var redirects = {
   'teach-like-mozilla/web-literacy': 'activities/web-literacy'
 };
 
+var wpPages = {};
+
+WpPageCrawler(function(err,slugs) { 
+  // FIXME: this module is exported before we get to this callback
+  // wpPages will already be {} at the time module gets exported
+  slugs.forEach(function(slug) {
+    wpPages[slug] = require('../pages/wp-page.jsx');
+  });
+  // console.log("wpPages = ", wpPages);
+});
+
 // aggregate all paths used in the app
 var urls = ['/'];
 urls = urls.concat( Object.keys(pages)     );
 urls = urls.concat( Object.keys(redirects) );
+urls = urls.concat( Object.keys(wpPages) );
 // remove duplicates. Just in case.
 urls = urls.filter(function(e,i) { return urls.indexOf(e)===i; });
 
@@ -80,3 +96,5 @@ module.exports = {
   REDIRECTS: redirects,
   routes: routes
 };
+
+
