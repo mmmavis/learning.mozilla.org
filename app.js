@@ -137,7 +137,8 @@ app.use(function(req, res, next) {
   });
   var ReactDOMServer = require('react-dom/server');
   var Page = require('./components/page.jsx');
-  var HtmlWrapper = require('./components/HTML-wrapper.jsx');
+  // FIXME: HTML-wrapper.jsx to be added
+  // var HtmlWrapper = require('./components/HTML-wrapper.jsx');
   var WpContentLoader = require('react-wp-content-loader');
 
   wpPageChecker(req.path, function(err, wpContent) {
