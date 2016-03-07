@@ -37,6 +37,8 @@
   },
   "dependencies": {
     "babel-core": "^6.3.21",
+    "babel-preset-react": "^6.5.0",
+    "babel-register": "^6.6.5",
     "bootstrap": "^3.3.4",
     "chalk": "^1.1.1",
     "classnames": "^2.2.1",
@@ -83,6 +85,7 @@
     "react-ga": "^1.0.12",
     "react-router": "^1.0.3",
     "react-select": "^0.9.1",
+    "react-wp-content-loader": "latest",
     "should": "^8.0.2",
     "source-map-support": "^0.4.0",
     "superagent": "^1.6.1",
