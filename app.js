@@ -138,12 +138,9 @@ app.use(function(req, res, next) {
   var ReactDOMServer = require('react-dom/server');
   var Page = require('./components/page.jsx');
   // FIXME: HTML-wrapper.jsx to be added
-  // var HtmlWrapper = require('./components/HTML-wrapper.jsx');
-  var WpContentLoader = require('react-wp-content-loader');
+  var HtmlWrapper = require('./components/HTML-wrapper.jsx');
 
   wpPageChecker(req.path, function(err, wpContent) {
-    console.log("\n\n\n\n Page", Page);
-
     if ( err ) {
       res.status(404).send(notFoundHTML);
     } else {
@@ -156,7 +153,9 @@ app.use(function(req, res, next) {
         React.createElement('div', { dangerouslySetInnerHTML: { __html: wpContent }})
       );
 
-      res.status(200).send("<!DOCTYPE html>" + ReactDOMServer.renderToStaticMarkup(PageContent));
+      var Html = React.createElement(HtmlWrapper, {}, PageContent);
+
+      res.status(200).send("<!DOCTYPE html>" + ReactDOMServer.renderToStaticMarkup(Html));
     }
   });
 });
