@@ -66,12 +66,14 @@ var redirectElements = Object.keys(redirects).map(function(path) {
 });
 
 // routes below are listed alphabetically by their path
-var routes = (
-  <Route path='/' component={require('../components/page.jsx')} >
-    <IndexRoute component={require('../pages/home.jsx')} />
-    {routeElements}
-    {redirectElements}
-  </Route>
+var routes = (<Router>
+    <Route path='/' component={require('../components/page.jsx')} >
+      <IndexRoute component={require('../pages/home.jsx')} />
+      {routeElements}
+      {redirectElements}
+    </Route>
+    <Route path=":wpslug" component={require('../pages/blog.jsx')}/>
+  </Router>
 );
 
 // return all the route information
