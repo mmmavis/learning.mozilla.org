@@ -145,7 +145,8 @@ app.use(function(req, res, next) {
     } else {
       var PageContent = React.createElement(
                           Page, 
-                          { routes: [ { path: '', component: { pageClassName: '', pageTitle: ''} } ] }, 
+                          // { routes: [ { path: '', component: { pageClassName: '', pageTitle: ''} } ] },
+                          { routes: [ indexStatic.routes.props ] }, 
                           React.createElement('div', { dangerouslySetInnerHTML: { __html: wpContent }})
                         );
       var Html = React.createElement(HtmlWrapper, {}, PageContent);
