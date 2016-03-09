@@ -89,6 +89,11 @@ app.use(function(req, res, next) {
 });
 
 /**
+ * Is this a static asset?
+ */
+app.use('/', express.static(DIST_DIR));
+
+/**
  * If it's not a redirect, is it a component page?
  */
 app.use(function(req, res, next) {
@@ -98,7 +103,6 @@ app.use(function(req, res, next) {
   match({ routes: routes, location: location}, function resolveRoute(err, redirect, props) {
     // this is a valid component: generat its associated page
     if (props) {
-      console.log("\n\n\n location = ", location);
       indexStatic.generate(location, {}, function(err, location, title, html) {
         if (err) {
           return next(err);
@@ -113,44 +117,10 @@ app.use(function(req, res, next) {
         if (redirect || props) {
           // this will work, as long as we rewrite the path
           return res.redirect(req.path + '/');
-        } 
+        }
         // this is not a url that can be services by React. Try more middleware.
         return next();
       });
-    }
-  });
-});
-
-/**
- * Is this a static asset?
- */
-app.use(express.static(DIST_DIR));
-
-
-/**
- * Last chance: check if it's a WP page, otherwise send 404
- */
-app.use(function(req, res, next) {
-  require('babel-register')({
-    extensions: [".jsx", ".js"],
-    presets: ['react']
-  });
-  var ReactDOMServer = require('react-dom/server');
-  var Page = require('./components/page.jsx');
-  var HtmlWrapper = require('./components/HTML-wrapper.jsx');
-
-  wpPageChecker(req.path, function(err, wpContent) {
-    if ( err ) {
-      res.status(404).send(notFoundHTML);
-    } else {
-      var PageContent = React.createElement(
-                          Page, 
-                          // { routes: [ { path: '', component: { pageClassName: '', pageTitle: ''} } ] },
-                          { routes: [ indexStatic.routes.props ] }, 
-                          React.createElement('div', { dangerouslySetInnerHTML: { __html: wpContent }})
-                        );
-      var Html = React.createElement(HtmlWrapper, {}, PageContent);
-      res.status(200).send("<!DOCTYPE html>" + ReactDOMServer.renderToStaticMarkup(Html));
     }
   });
 });
