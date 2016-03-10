@@ -37,8 +37,6 @@
   },
   "dependencies": {
     "babel-core": "^6.3.21",
-    "babel-preset-react": "^6.5.0",
-    "babel-register": "^6.6.5",
     "bootstrap": "^3.3.4",
     "chalk": "^1.1.1",
     "classnames": "^2.2.1",

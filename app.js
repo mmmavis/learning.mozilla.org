@@ -19,8 +19,6 @@ var indexStatic;
 var router;
 var app = express();
 
-var wpPageChecker = require('./lib/wp-page-checker');
-
 var notFoundHTML = [
   '<!doctype html>',
   '<html><head>',
