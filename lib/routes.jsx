@@ -69,14 +69,13 @@ var redirectElements = Object.keys(redirects).map(function(path) {
 // routes below are listed alphabetically by their path
 // [TODO] 404 needs to be handled properly. Now we just make all the 
 //        non-component pages as wp-pages
-var routes = (<Router>
+var routes = (
     <Route path='/' component={require('../components/page.jsx')} >
       <IndexRoute component={require('../pages/home.jsx')} />
       {routeElements}
       {redirectElements}
+      <Route path=":wpSlug" component={require('../pages/wp-page.jsx')}/>
     </Route>
-    <Route path=":wpSlug" component={require('../pages/wp-page.jsx')}/>
-  </Router>
 );
 
 // return all the route information
