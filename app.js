@@ -99,28 +99,23 @@ app.use(function(req, res, next) {
   var location = urlToRoutePath(req.url);
 
   match({ routes: routes, location: location}, function resolveRoute(err, redirect, props) {
-    // this is a valid component: generat its associated page
+    // this is a valid component: generate its associated page
     if (props) {
       indexStatic.generate(location, {}, function(err, location, title, html) {
         if (err) {
-          return next(err);
+          next(err);
         }
-        return res.type('html').send(html);
+        res.status(200).type('html').send(html);
       });
-    }
-    // this is not a specific component - although it might be if we massage the path:
-    else {
-      location = urlToRoutePath(req.path) + '/';
-      match({ routes: routes, location: location}, function resolvePath(err, redirect, props) {
-        if (redirect || props) {
-          // this will work, as long as we rewrite the path
-          return res.redirect(req.path + '/');
-        }
-        // this is not a url that can be services by React. Try more middleware.
-        return next();
-      });
+    } else {
+      // Note we will never hit here due to our React Router's routes setup. (See routes.jsx)
+      next();
     }
   });
+});
+
+app.use(function(req, res, next) {
+  res.status(404).send(notFoundHTML);
 });
 
 app.DIST_DIR = DIST_DIR;
