@@ -105,7 +105,7 @@ app.use(function(req, res, next) {
         if (err) {
           next(err);
         }
-        res.status(200).type('html').send(html);
+        res.type('html').send(html);
       });
     } else {
       // Note we will never hit here due to our React Router's routes setup. (See routes.jsx)
