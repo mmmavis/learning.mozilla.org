@@ -12,6 +12,8 @@ var PORT = process.env.PORT || 8008;
 var PRODUCTION = (process.env.NODE_ENV === 'production');
 var DIST_DIR = path.join(__dirname, 'dist');
 
+var WpPageChecker = require('./lib/wp-page-checker');
+
 var habitat = require('habitat');
 habitat.load('.env');
 
@@ -97,22 +99,38 @@ app.use('/', express.static(DIST_DIR));
 app.use(function(req, res, next) {
   var routes = indexStatic.routes;
   var location = urlToRoutePath(req.url);
+  var urls = indexStatic.URLS;
 
   match({ routes: routes, location: location}, function resolveRoute(err, redirect, props) {
-    // this is a valid component: generate its associated page
+    // this is a valid component
     if (props) {
-      indexStatic.generate(location, {}, function(err, location, title, html) {
-        if (err) {
-          next(err);
-        }
-        res.type('html').send(html);
-      });
-    } else {
-      // Note we will never hit here due to our React Router's routes setup. (See routes.jsx)
-      next();
+      // this belongs to one of the predefined urls, let's generate its associated page
+      if ( urls.indexOf(location) != -1 ) {
+        renderComponentPage(location,res);
+      } else { // check to see a page with this slug exists on the WordPress site
+        WpPageChecker(location, function(error, wpContent) {
+          if ( error ) {
+            console.log("///// WpPageChecker error");
+            return next();
+          }
+          // WP page exists, let's load the WordPress content through a component page
+          renderComponentPage(location,res);
+        });
+      }
+    } else { // Note we will never hit here due to our React Router's routes setup. (See routes.jsx)
+      return next();
     }
   });
 });
+
+function renderComponentPage(location, res) {
+  indexStatic.generate(location, {}, function(err, location, title, html) {
+    if (err) {
+      next(err);
+    }
+    res.type('html').send(html);
+  });
+}
 
 app.use(function(req, res, next) {
   res.status(404).send(notFoundHTML);
